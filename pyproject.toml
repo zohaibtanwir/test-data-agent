@@ -1,0 +1,67 @@
+[project]
+name = "test-data-agent"
+version = "0.1.0"
+description = "Intelligent test data generation microservice for QA Intelligence Platform"
+requires-python = ">=3.11"
+readme = "README.md"
+license = {text = "MIT"}
+
+dependencies = [
+    "grpcio>=1.60.0",
+    "grpcio-tools>=1.60.0",
+    "grpcio-reflection>=1.60.0",
+    "fastapi>=0.109.0",
+    "uvicorn>=0.27.0",
+    "anthropic>=0.40.0",
+    "openai>=1.0.0",
+    "weaviate-client>=4.0.0",
+    "redis>=5.0.0",
+    "faker>=22.0.0",
+    "pydantic>=2.5.0",
+    "pydantic-settings>=2.0.0",
+    "structlog>=24.0.0",
+    "prometheus-client>=0.19.0",
+    "opentelemetry-api>=1.22.0",
+    "opentelemetry-sdk>=1.22.0",
+    "opentelemetry-exporter-otlp>=1.22.0",
+    "opentelemetry-instrumentation-grpc>=0.43b0",
+    "python-dotenv>=1.0.0",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=8.0.0",
+    "pytest-asyncio>=0.23.0",
+    "pytest-cov>=4.1.0",
+    "testcontainers>=3.7.0",
+    "black>=24.0.0",
+    "ruff>=0.1.0",
+    "mypy>=1.8.0",
+    "httpx>=0.26.0",
+]
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.black]
+line-length = 100
+target-version = ["py311"]
+
+[tool.ruff]
+line-length = 100
+target-version = "py311"
+
+[tool.mypy]
+python_version = "3.11"
+warn_return_any = true
+warn_unused_configs = true
+disallow_untyped_defs = false
+
+[tool.pytest.ini_options]
+asyncio_mode = "auto"
+testpaths = ["tests"]
+python_files = ["test_*.py"]
+python_classes = ["Test*"]
+python_functions = ["test_*"]
+addopts = "-v --cov=src/test_data_agent --cov-report=html --cov-report=term"

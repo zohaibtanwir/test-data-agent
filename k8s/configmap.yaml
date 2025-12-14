@@ -1,0 +1,43 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: test-data-agent-config
+  namespace: test-data-agent
+  labels:
+    app: test-data-agent
+data:
+  SERVICE_NAME: "test-data-agent"
+  GRPC_PORT: "9091"
+  HTTP_PORT: "8091"
+  LOG_LEVEL: "INFO"
+  ENVIRONMENT: "production"
+
+  # Claude settings
+  CLAUDE_MODEL: "claude-sonnet-4-20250514"
+  CLAUDE_MAX_TOKENS: "4096"
+  CLAUDE_TEMPERATURE: "0.7"
+
+  # vLLM settings (fallback)
+  VLLM_BASE_URL: "http://vllm:8000/v1"
+  VLLM_MODEL: "meta-llama/Meta-Llama-3-8B-Instruct"
+  USE_LOCAL_LLM: "false"
+
+  # Weaviate settings
+  WEAVIATE_URL: "http://weaviate:8080"
+  RAG_COLLECTION_PATTERNS: "testdata_patterns"
+  RAG_COLLECTION_DEFECTS: "testdata_defects"
+  RAG_TOP_K: "5"
+
+  # Redis settings
+  REDIS_URL: "redis://redis:6379/0"
+  CACHE_TTL_SECONDS: "86400"
+
+  # Generation settings
+  MAX_SYNC_RECORDS: "1000"
+  DEFAULT_BATCH_SIZE: "50"
+  COHERENCE_THRESHOLD: "0.85"
+
+  # Observability settings
+  PROMETHEUS_ENABLED: "true"
+  TRACING_ENABLED: "true"
+  OTLP_ENDPOINT: "http://otel-collector:4317"

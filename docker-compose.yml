@@ -1,0 +1,70 @@
+version: '3.8'
+
+services:
+  test-data-agent:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: test-data-agent
+    ports:
+      - "9091:9091"  # gRPC
+      - "8091:8091"  # HTTP
+    environment:
+      - SERVICE_NAME=test-data-agent
+      - GRPC_PORT=9091
+      - HTTP_PORT=8091
+      - LOG_LEVEL=INFO
+      - ENVIRONMENT=development
+      - ANTHROPIC_API_KEY=${ANTHROPIC_API_KEY:-dummy-api-key}
+      - WEAVIATE_URL=http://weaviate:8080
+      - REDIS_URL=redis://redis:6379/0
+    depends_on:
+      - redis
+      - weaviate
+    networks:
+      - test-data-network
+    restart: unless-stopped
+
+  redis:
+    image: redis:7-alpine
+    container_name: test-data-redis
+    ports:
+      - "6379:6379"
+    networks:
+      - test-data-network
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  weaviate:
+    image: semitechnologies/weaviate:latest
+    container_name: test-data-weaviate
+    ports:
+      - "8080:8080"
+      - "50051:50051"
+    environment:
+      - AUTHENTICATION_ANONYMOUS_ACCESS_ENABLED=true
+      - PERSISTENCE_DATA_PATH=/var/lib/weaviate
+      - DEFAULT_VECTORIZER_MODULE=none
+      - ENABLE_MODULES=
+      - CLUSTER_HOSTNAME=node1
+    volumes:
+      - weaviate-data:/var/lib/weaviate
+    networks:
+      - test-data-network
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "wget", "--no-verbose", "--tries=1", "--spider", "http://localhost:8080/v1/.well-known/ready"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+networks:
+  test-data-network:
+    driver: bridge
+
+volumes:
+  weaviate-data:

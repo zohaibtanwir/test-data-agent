@@ -1,0 +1,25 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: test-data-agent
+  namespace: test-data-agent
+  labels:
+    app: test-data-agent
+  annotations:
+    prometheus.io/scrape: "true"
+    prometheus.io/port: "8091"
+    prometheus.io/path: "/metrics"
+spec:
+  type: ClusterIP
+  selector:
+    app: test-data-agent
+  ports:
+  - name: grpc
+    port: 9091
+    targetPort: grpc
+    protocol: TCP
+  - name: http
+    port: 8091
+    targetPort: http
+    protocol: TCP
+  sessionAffinity: None

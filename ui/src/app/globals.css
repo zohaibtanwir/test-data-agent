@@ -1,0 +1,50 @@
+@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: 0 0% 100%;
+    --foreground: 0 0% 0%;
+    --card: 0 0% 100%;
+    --card-foreground: 0 0% 0%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 0 0% 0%;
+    --primary: 346 100% 40%;
+    --primary-foreground: 0 0% 100%;
+    --secondary: 0 0% 96%;
+    --secondary-foreground: 0 0% 0%;
+    --muted: 0 0% 96%;
+    --muted-foreground: 0 0% 40%;
+    --accent: 346 100% 40%;
+    --accent-foreground: 0 0% 100%;
+    --destructive: 346 100% 40%;
+    --destructive-foreground: 0 0% 100%;
+    --border: 0 0% 90%;
+    --input: 0 0% 96%;
+    --ring: 346 100% 40%;
+    --radius: 0.5rem;
+    --chart-1: 346 100% 40%;
+    --chart-2: 210 100% 40%;
+    --chart-3: 140 60% 40%;
+    --chart-4: 40 100% 50%;
+    --chart-5: 0 0% 40%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border-default;
+  }
+  body {
+    @apply bg-bg-primary text-text-primary font-sans;
+  }
+}
+
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
+}
