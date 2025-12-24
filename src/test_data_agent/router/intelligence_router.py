@@ -39,6 +39,21 @@ class IntelligenceRouter:
         Returns:
             RoutingDecision with path, reason, and confidence
         """
+        # Priority 0: Respect explicit generation_method if set (non-zero means explicitly chosen)
+        # Proto enum: TRADITIONAL=0, LLM=1, RAG=2, HYBRID=3
+        if request.generation_method > 0:
+            method_map = {
+                test_data_pb2.LLM: GenerationPath.LLM,
+                test_data_pb2.RAG: GenerationPath.RAG,
+                test_data_pb2.HYBRID: GenerationPath.HYBRID,
+            }
+            path = method_map.get(request.generation_method, GenerationPath.TRADITIONAL)
+            return RoutingDecision(
+                path=path,
+                reason=f"User explicitly selected {path.value} generation method",
+                confidence=1.0,
+            )
+
         hints = [h.lower() for h in request.hints]
 
         # Priority 1: HYBRID (RAG + LLM) - Most sophisticated
