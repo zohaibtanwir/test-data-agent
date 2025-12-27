@@ -108,7 +108,7 @@ class VLLMClient:
                     stop_reason=choice.finish_reason or "stop",
                 )
 
-            except RateLimitError as e:
+            except RateLimitError:
                 if attempt < self.max_retries - 1:
                     delay = self.base_delay * (2**attempt)
                     logger.warning(
@@ -121,7 +121,7 @@ class VLLMClient:
                     logger.error("vllm_rate_limit_exhausted")
                     raise
 
-            except APITimeoutError as e:
+            except APITimeoutError:
                 if attempt < self.max_retries - 1:
                     delay = self.base_delay * (2**attempt)
                     logger.warning(

@@ -21,10 +21,20 @@ def test_list_schemas():
     registry = SchemaRegistry()
 
     schemas = registry.list_schemas()
-    assert len(schemas) == 6  # cart, order, payment, product, review, user
+    assert len(schemas) == 36  # All 36 ecommerce entity schemas
 
     names = {s["name"] for s in schemas}
-    assert names == {"cart", "order", "payment", "product", "review", "user"}
+    expected_names = {
+        "analytics_event", "cart", "cart_item", "coupon", "customer",
+        "customer_preferences", "discount", "exchange", "favorites",
+        "fraud_check", "gift_card", "inventory", "loyalty_member",
+        "notification", "order", "order_item", "order_status", "payment",
+        "payment_authorization", "product", "promotion", "rating", "refund",
+        "return", "review", "saved_cart", "search_query", "shipment",
+        "shipping", "stock", "stock_alert", "subscription", "support_ticket",
+        "tracking", "user", "wishlist",
+    }
+    assert names == expected_names
 
 
 def test_list_schemas_filtered():
@@ -32,7 +42,7 @@ def test_list_schemas_filtered():
     registry = SchemaRegistry()
 
     ecommerce_schemas = registry.list_schemas(domain="ecommerce")
-    assert len(ecommerce_schemas) == 6  # All current schemas are ecommerce
+    assert len(ecommerce_schemas) == 36  # All current schemas are ecommerce
 
     # Test non-existent domain
     other_schemas = registry.list_schemas(domain="supply_chain")

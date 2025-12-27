@@ -1,9 +1,8 @@
 """Traditional generator using Faker for data generation."""
 
-import asyncio
 import random
 import time
-from datetime import datetime, timedelta
+from datetime import datetime
 from typing import Any, AsyncIterator
 
 from faker import Faker

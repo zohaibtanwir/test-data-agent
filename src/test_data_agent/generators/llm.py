@@ -2,7 +2,6 @@
 
 import json
 import time
-from typing import Any
 
 from test_data_agent.generators.base import BaseGenerator, GenerationResult
 from test_data_agent.clients.claude import ClaudeClient

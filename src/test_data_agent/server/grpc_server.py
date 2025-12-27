@@ -1,6 +1,5 @@
 """gRPC server implementation for Test Data Service."""
 
-import asyncio
 import json
 from concurrent import futures
 from typing import AsyncIterator

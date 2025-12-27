@@ -1,7 +1,6 @@
 """Coherence scoring for generated test data."""
 
 from datetime import datetime
-from typing import Any
 
 from test_data_agent.utils.logging import get_logger
 

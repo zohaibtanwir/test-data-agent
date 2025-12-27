@@ -1,10 +1,8 @@
 """Weaviate vector database client for RAG operations."""
 
-import json
 from typing import Any
 
 import weaviate
-from weaviate.classes.config import Configure, Property, DataType
 from weaviate.classes.query import MetadataQuery
 
 from test_data_agent.config import Settings

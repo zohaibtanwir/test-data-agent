@@ -1,9 +1,7 @@
 """Claude API client with retry logic."""
 
 import asyncio
-import time
 from dataclasses import dataclass
-from typing import Any
 
 from anthropic import Anthropic, APIError, RateLimitError, APITimeoutError
 from anthropic.types import Message
@@ -108,7 +106,7 @@ class ClaudeClient:
                     stop_reason=message.stop_reason,
                 )
 
-            except RateLimitError as e:
+            except RateLimitError:
                 if attempt < self.max_retries - 1:
                     delay = self.base_delay * (2**attempt)
                     logger.warning(
@@ -121,7 +119,7 @@ class ClaudeClient:
                     logger.error("claude_rate_limit_exhausted")
                     raise
 
-            except APITimeoutError as e:
+            except APITimeoutError:
                 if attempt < self.max_retries - 1:
                     delay = self.base_delay * (2**attempt)
                     logger.warning(
