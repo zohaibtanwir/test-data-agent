@@ -3,12 +3,59 @@
 from typing import Dict, List, Optional
 
 from test_data_agent.schemas.entities import (
+    # Shopping Cart
     CART_SCHEMA,
+    CART_ITEM_SCHEMA,
+    SAVED_CART_SCHEMA,
+    # Orders
     ORDER_SCHEMA,
+    ORDER_ITEM_SCHEMA,
+    ORDER_STATUS_SCHEMA,
+    # Payments
     PAYMENT_SCHEMA,
+    REFUND_SCHEMA,
+    PAYMENT_AUTHORIZATION_SCHEMA,
+    # Catalog
     PRODUCT_SCHEMA,
-    REVIEW_SCHEMA,
+    INVENTORY_SCHEMA,
+    STOCK_SCHEMA,
+    STOCK_ALERT_SCHEMA,
+    # Users/Customers
     USER_SCHEMA,
+    CUSTOMER_SCHEMA,
+    LOYALTY_MEMBER_SCHEMA,
+    CUSTOMER_PREFERENCES_SCHEMA,
+    # Shipping
+    SHIPPING_SCHEMA,
+    SHIPMENT_SCHEMA,
+    TRACKING_SCHEMA,
+    # Promotions
+    DISCOUNT_SCHEMA,
+    COUPON_SCHEMA,
+    PROMOTION_SCHEMA,
+    # Reviews
+    REVIEW_SCHEMA,
+    RATING_SCHEMA,
+    # Wishlist
+    WISHLIST_SCHEMA,
+    FAVORITES_SCHEMA,
+    # Returns
+    RETURN_SCHEMA,
+    EXCHANGE_SCHEMA,
+    # Analytics
+    ANALYTICS_EVENT_SCHEMA,
+    # Communications
+    NOTIFICATION_SCHEMA,
+    # Subscriptions
+    SUBSCRIPTION_SCHEMA,
+    # Gift Cards
+    GIFT_CARD_SCHEMA,
+    # Search
+    SEARCH_QUERY_SCHEMA,
+    # Security
+    FRAUD_CHECK_SCHEMA,
+    # Support
+    SUPPORT_TICKET_SCHEMA,
 )
 from test_data_agent.utils.logging import get_logger
 
@@ -27,12 +74,59 @@ class SchemaRegistry:
     def _load_predefined_schemas(self) -> None:
         """Load all pre-defined schemas."""
         schemas = [
+            # Shopping Cart
             CART_SCHEMA,
+            CART_ITEM_SCHEMA,
+            SAVED_CART_SCHEMA,
+            # Orders
             ORDER_SCHEMA,
+            ORDER_ITEM_SCHEMA,
+            ORDER_STATUS_SCHEMA,
+            # Payments
             PAYMENT_SCHEMA,
+            REFUND_SCHEMA,
+            PAYMENT_AUTHORIZATION_SCHEMA,
+            # Catalog
             PRODUCT_SCHEMA,
-            REVIEW_SCHEMA,
+            INVENTORY_SCHEMA,
+            STOCK_SCHEMA,
+            STOCK_ALERT_SCHEMA,
+            # Users/Customers
             USER_SCHEMA,
+            CUSTOMER_SCHEMA,
+            LOYALTY_MEMBER_SCHEMA,
+            CUSTOMER_PREFERENCES_SCHEMA,
+            # Shipping
+            SHIPPING_SCHEMA,
+            SHIPMENT_SCHEMA,
+            TRACKING_SCHEMA,
+            # Promotions
+            DISCOUNT_SCHEMA,
+            COUPON_SCHEMA,
+            PROMOTION_SCHEMA,
+            # Reviews
+            REVIEW_SCHEMA,
+            RATING_SCHEMA,
+            # Wishlist
+            WISHLIST_SCHEMA,
+            FAVORITES_SCHEMA,
+            # Returns
+            RETURN_SCHEMA,
+            EXCHANGE_SCHEMA,
+            # Analytics
+            ANALYTICS_EVENT_SCHEMA,
+            # Communications
+            NOTIFICATION_SCHEMA,
+            # Subscriptions
+            SUBSCRIPTION_SCHEMA,
+            # Gift Cards
+            GIFT_CARD_SCHEMA,
+            # Search
+            SEARCH_QUERY_SCHEMA,
+            # Security
+            FRAUD_CHECK_SCHEMA,
+            # Support
+            SUPPORT_TICKET_SCHEMA,
         ]
 
         for schema in schemas:
