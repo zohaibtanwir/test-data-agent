@@ -1,5 +1,5 @@
 # Test Data Agent Dockerfile
-FROM python:3.11-slim
+FROM python:3.13-slim
 
 # Set working directory
 WORKDIR /app
@@ -45,11 +45,11 @@ RUN useradd -m -u 1000 appuser && \
 USER appuser
 
 # Expose ports
-EXPOSE 9001 8081
+EXPOSE 9091 8091
 
-# Health check
+# Health check - uses HTTP_PORT env var (default 8091)
 HEALTHCHECK --interval=30s --timeout=5s --start-period=10s --retries=3 \
-    CMD python -c "import urllib.request; urllib.request.urlopen('http://localhost:8081/health/live')" || exit 1
+    CMD python -c "import urllib.request; import os; urllib.request.urlopen(f'http://localhost:{os.environ.get(\"HTTP_PORT\", \"8091\")}/health/live')" || exit 1
 
 # Run the application
 CMD ["python", "-m", "test_data_agent.main"]

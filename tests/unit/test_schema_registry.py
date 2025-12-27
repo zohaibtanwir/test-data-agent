@@ -61,7 +61,7 @@ def test_schema_exists():
 
 
 def test_get_schema_info():
-    """Test getting schema info."""
+    """Test getting schema info with full field details."""
     registry = SchemaRegistry()
 
     info = registry.get_schema_info("cart")
@@ -69,7 +69,19 @@ def test_get_schema_info():
     assert info["name"] == "cart"
     assert info["domain"] == "ecommerce"
     assert isinstance(info["fields"], list)
-    assert "cart_id" in info["fields"]
+
+    # Fields are now dictionaries with name, type, required, description, example
+    field_names = [f["name"] for f in info["fields"]]
+    assert "cart_id" in field_names
+    assert "customer_id" in field_names
+    assert "items" in field_names
+
+    # Verify field structure
+    cart_id_field = next(f for f in info["fields"] if f["name"] == "cart_id")
+    assert cart_id_field["type"] == "string"
+    assert cart_id_field["required"] is True
+    assert "description" in cart_id_field
+    assert "example" in cart_id_field
 
 
 def test_register_custom_schema():

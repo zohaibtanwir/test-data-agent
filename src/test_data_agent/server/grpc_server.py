@@ -164,13 +164,28 @@ class TestDataServiceServicer(test_data_pb2_grpc.TestDataServiceServicer):
                         error=str(e),
                     )
             elif request.schema and request.schema.predefined_schema:
-                schema_dict = self.registry.get_schema(request.schema.predefined_schema)
+                found_schema = self.registry.get_schema(request.schema.predefined_schema)
+                if found_schema:
+                    schema_dict = found_schema
+                else:
+                    logger.warning(
+                        "predefined_schema_not_found",
+                        request_id=request.request_id,
+                        schema_name=request.schema.predefined_schema,
+                        msg="Will generate without predefined schema"
+                    )
             elif request.entity:
                 # Try to find schema by entity name
-                try:
-                    schema_dict = self.registry.get_schema(request.entity)
-                except ValueError:
-                    pass
+                found_schema = self.registry.get_schema(request.entity)
+                if found_schema:
+                    schema_dict = found_schema
+                else:
+                    logger.debug(
+                        "entity_schema_not_found",
+                        request_id=request.request_id,
+                        entity=request.entity,
+                        msg="Will generate without predefined schema"
+                    )
 
             # Generate using selected path
             if routing_decision.path == GenerationPath.LLM:
@@ -218,9 +233,9 @@ class TestDataServiceServicer(test_data_pb2_grpc.TestDataServiceServicer):
                 # Unknown path, use Traditional
                 result = await self.traditional_generator.generate(request)
 
-            # Calculate coherence score for cart/order entities
+            # Calculate coherence score for all entities
             coherence_score = result.metadata.get("coherence_score", 0.0)
-            if request.entity in ["cart", "order"] and result.data:
+            if result.data:
                 coherence_scores = [
                     self.coherence_scorer.score(record, request.entity) for record in result.data
                 ]
@@ -360,12 +375,28 @@ class TestDataServiceServicer(test_data_pb2_grpc.TestDataServiceServicer):
                         error=str(e),
                     )
             elif request.schema and request.schema.predefined_schema:
-                schema_dict = self.registry.get_schema(request.schema.predefined_schema)
+                found_schema = self.registry.get_schema(request.schema.predefined_schema)
+                if found_schema:
+                    schema_dict = found_schema
+                else:
+                    logger.warning(
+                        "predefined_schema_not_found",
+                        request_id=request.request_id,
+                        schema_name=request.schema.predefined_schema,
+                        msg="Will generate without predefined schema"
+                    )
             elif request.entity:
-                try:
-                    schema_dict = self.registry.get_schema(request.entity)
-                except ValueError:
-                    pass
+                # Try to find schema by entity name
+                found_schema = self.registry.get_schema(request.entity)
+                if found_schema:
+                    schema_dict = found_schema
+                else:
+                    logger.debug(
+                        "entity_schema_not_found",
+                        request_id=request.request_id,
+                        entity=request.entity,
+                        msg="Will generate without predefined schema"
+                    )
 
             # Determine batch size (default or from settings)
             batch_size = getattr(self.settings, "default_batch_size", 50)
@@ -540,11 +571,23 @@ class TestDataServiceServicer(test_data_pb2_grpc.TestDataServiceServicer):
             for schema in schemas:
                 info = self.registry.get_schema_info(schema["name"])
                 if info:
+                    # Convert field dictionaries to SchemaFieldInfo protobuf objects
+                    field_infos = []
+                    for field in info["fields"]:
+                        field_info = test_data_pb2.SchemaFieldInfo(
+                            name=field["name"],
+                            type=field["type"],
+                            required=field["required"],
+                            description=field["description"],
+                            example=field["example"],
+                        )
+                        field_infos.append(field_info)
+
                     schema_info = test_data_pb2.SchemaInfo(
                         name=info["name"],
                         domain=info["domain"],
                         description=info["description"],
-                        fields=info["fields"],
+                        fields=field_infos,
                     )
                     schema_infos.append(schema_info)
 

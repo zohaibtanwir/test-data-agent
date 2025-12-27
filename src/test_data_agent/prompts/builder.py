@@ -19,14 +19,14 @@ class PromptBuilder:
     def build_prompt(
         self,
         request: Any,
-        schema_dict: dict,
+        schema_dict: dict | None,
         rag_context: list[dict] | None = None,
     ) -> tuple[str, str]:
         """Build system and user prompts for generation.
 
         Args:
             request: GenerateRequest proto message
-            schema_dict: Schema dictionary from registry
+            schema_dict: Schema dictionary from registry (can be None)
             rag_context: Optional RAG examples
 
         Returns:
@@ -93,15 +93,19 @@ class PromptBuilder:
         # Default general template
         return GENERAL_TEMPLATE
 
-    def format_schema(self, schema_dict: dict) -> str:
+    def format_schema(self, schema_dict: dict | None) -> str:
         """Format schema into readable string for prompt.
 
         Args:
-            schema_dict: Schema dictionary
+            schema_dict: Schema dictionary (can be None)
 
         Returns:
             Formatted schema string
         """
+        # Handle None or empty schema_dict
+        if not schema_dict:
+            return "No specific schema provided. Generate data based on entity name and context."
+
         lines = []
         lines.append(f"Entity: {schema_dict.get('name', 'unknown')}")
         lines.append(f"Domain: {schema_dict.get('domain', 'unknown')}")

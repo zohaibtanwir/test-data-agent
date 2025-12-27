@@ -144,11 +144,23 @@ class SchemaRegistry:
         if not schema:
             return None
 
+        # Convert fields dict to list of field info dictionaries
+        fields_info = []
+        for field_name, field_def in schema["fields"].items():
+            field_info = {
+                "name": field_name,
+                "type": field_def.get("type", "string"),
+                "required": field_def.get("required", False),
+                "description": field_def.get("description", ""),
+                "example": str(field_def.get("format", field_def.get("default", ""))),
+            }
+            fields_info.append(field_info)
+
         return {
             "name": schema["name"],
             "domain": schema["domain"],
             "description": schema["description"],
-            "fields": list(schema["fields"].keys()),
+            "fields": fields_info,
         }
 
 
