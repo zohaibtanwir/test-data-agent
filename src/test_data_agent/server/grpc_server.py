@@ -171,7 +171,7 @@ class TestDataServiceServicer(test_data_pb2_grpc.TestDataServiceServicer):
                         "predefined_schema_not_found",
                         request_id=request.request_id,
                         schema_name=request.schema.predefined_schema,
-                        msg="Will generate without predefined schema"
+                        msg="Will generate without predefined schema",
                     )
             elif request.entity:
                 # Try to find schema by entity name
@@ -183,7 +183,7 @@ class TestDataServiceServicer(test_data_pb2_grpc.TestDataServiceServicer):
                         "entity_schema_not_found",
                         request_id=request.request_id,
                         entity=request.entity,
-                        msg="Will generate without predefined schema"
+                        msg="Will generate without predefined schema",
                     )
 
             # Generate using selected path
@@ -382,7 +382,7 @@ class TestDataServiceServicer(test_data_pb2_grpc.TestDataServiceServicer):
                         "predefined_schema_not_found",
                         request_id=request.request_id,
                         schema_name=request.schema.predefined_schema,
-                        msg="Will generate without predefined schema"
+                        msg="Will generate without predefined schema",
                     )
             elif request.entity:
                 # Try to find schema by entity name
@@ -394,7 +394,7 @@ class TestDataServiceServicer(test_data_pb2_grpc.TestDataServiceServicer):
                         "entity_schema_not_found",
                         request_id=request.request_id,
                         entity=request.entity,
-                        msg="Will generate without predefined schema"
+                        msg="Will generate without predefined schema",
                     )
 
             # Determine batch size (default or from settings)
@@ -651,7 +651,7 @@ class GrpcServer:
 
         # Enable gRPC reflection for grpcurl and other tools
         service_names = (
-            test_data_pb2.DESCRIPTOR.services_by_name['TestDataService'].full_name,
+            test_data_pb2.DESCRIPTOR.services_by_name["TestDataService"].full_name,
             reflection.SERVICE_NAME,
         )
         reflection.enable_server_reflection(service_names, self.server)

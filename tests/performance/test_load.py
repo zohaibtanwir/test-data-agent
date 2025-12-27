@@ -129,12 +129,12 @@ async def scenario_traditional_simple(
 
     # Print results
     summary = metrics.summary()
-    print(f"\nResults:")
+    print("\nResults:")
     print(f"  Total time: {total_time:.2f}s")
     print(f"  Requests: {summary['total_requests']}")
     print(f"  Success rate: {(1 - summary['error_rate']) * 100:.1f}%")
     print(f"  Total records: {summary['total_records']}")
-    print(f"\nLatency (ms):")
+    print("\nLatency (ms):")
     print(f"  Min: {summary['latency_ms']['min']:.1f}")
     print(f"  Mean: {summary['latency_ms']['mean']:.1f}")
     print(f"  Median: {summary['latency_ms']['median']:.1f}")
@@ -145,7 +145,7 @@ async def scenario_traditional_simple(
 
     # Check target
     target_p99 = 200
-    actual_p99 = summary['latency_ms']['p99']
+    actual_p99 = summary["latency_ms"]["p99"]
     status = "✅ PASS" if actual_p99 < target_p99 else "❌ FAIL"
     print(f"\nTarget p99 < {target_p99}ms: {actual_p99:.1f}ms {status}")
 
@@ -207,19 +207,19 @@ async def scenario_streaming_large(
     total_time = time.time() - start
 
     # Print results
-    print(f"\nResults:")
+    print("\nResults:")
     print(f"  Total time: {total_time:.2f}s")
     print(f"  Requests: {concurrency}")
     print(f"  Success rate: {((concurrency - len(errors)) / concurrency) * 100:.1f}%")
 
     if first_chunk_latencies:
-        print(f"\nFirst chunk latency (ms):")
+        print("\nFirst chunk latency (ms):")
         print(f"  Min: {min(first_chunk_latencies) * 1000:.1f}")
         print(f"  Mean: {mean(first_chunk_latencies) * 1000:.1f}")
         print(f"  Max: {max(first_chunk_latencies) * 1000:.1f}")
 
     if total_latencies:
-        print(f"\nTotal latency (s):")
+        print("\nTotal latency (s):")
         print(f"  Min: {min(total_latencies):.2f}")
         print(f"  Mean: {mean(total_latencies):.2f}")
         print(f"  Max: {max(total_latencies):.2f}")

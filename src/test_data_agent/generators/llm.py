@@ -77,12 +77,18 @@ class LLMGenerator(BaseGenerator):
                     system=system_prompt,
                     user=user_prompt,
                 )
-                logger.debug("claude_api_returned", request_id=request.request_id, response_type=type(response).__name__)
+                logger.debug(
+                    "claude_api_returned",
+                    request_id=request.request_id,
+                    response_type=type(response).__name__,
+                )
 
                 # Parse and validate
                 logger.debug("starting_parse_validate", request_id=request.request_id)
                 data = self._parse_and_validate(response, schema_dict, request)
-                logger.debug("parse_validate_complete", request_id=request.request_id, record_count=len(data))
+                logger.debug(
+                    "parse_validate_complete", request_id=request.request_id, record_count=len(data)
+                )
 
                 duration = time.time() - start_time
 
@@ -248,7 +254,9 @@ class LLMGenerator(BaseGenerator):
         Returns:
             Stricter prompt
         """
-        stricter = original_prompt + """\n
+        stricter = (
+            original_prompt
+            + """\n
 IMPORTANT: Output ONLY valid JSON array, no other text.
 
 Example format:
@@ -269,6 +277,7 @@ Example format:
 
 Do not include markdown code blocks, explanations, or any other text. Only the JSON array.
 """
+        )
         return stricter
 
     def supports(self, request: test_data_pb2.GenerateRequest) -> bool:

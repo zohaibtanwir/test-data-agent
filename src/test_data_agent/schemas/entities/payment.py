@@ -19,7 +19,14 @@ PAYMENT_SCHEMA = {
         },
         "method": {
             "type": "enum",
-            "values": ["credit_card", "debit_card", "paypal", "apple_pay", "google_pay", "gift_card"],
+            "values": [
+                "credit_card",
+                "debit_card",
+                "paypal",
+                "apple_pay",
+                "google_pay",
+                "gift_card",
+            ],
             "required": True,
             "description": "Payment method",
         },

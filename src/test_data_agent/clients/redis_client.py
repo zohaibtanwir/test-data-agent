@@ -123,9 +123,7 @@ class RedisClient:
                 await self.client.ltrim(pool_key, len(items), -1)
 
             parsed_items = [json.loads(item) for item in items]
-            logger.debug(
-                "pool_get", pool=pool_name, requested=count, retrieved=len(parsed_items)
-            )
+            logger.debug("pool_get", pool=pool_name, requested=count, retrieved=len(parsed_items))
             return parsed_items
 
         except Exception as e:

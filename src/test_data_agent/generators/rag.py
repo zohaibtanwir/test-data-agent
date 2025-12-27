@@ -281,7 +281,7 @@ class RAGGenerator(BaseGenerator):
         # Add metadata fields
         generated = self._add_metadata_fields(generated)
 
-        return generated[:request.count]
+        return generated[: request.count]
 
     def _create_variation(self, template: dict, index: int) -> dict:
         """Create a variation of a template record.

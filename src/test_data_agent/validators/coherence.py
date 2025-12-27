@@ -12,7 +12,14 @@ class CoherenceScorer:
 
     # Category affinity groups - items that make sense together
     CATEGORY_GROUPS = {
-        "fitness": {"running shoes", "athletic socks", "water bottle", "fitness tracker", "gym bag", "yoga mat"},
+        "fitness": {
+            "running shoes",
+            "athletic socks",
+            "water bottle",
+            "fitness tracker",
+            "gym bag",
+            "yoga mat",
+        },
         "beauty": {"lipstick", "mascara", "foundation", "brushes", "makeup remover", "face cream"},
         "home": {"bedding", "pillows", "blankets", "candles", "throw pillows", "sheets"},
         "baby": {"onesies", "blanket", "stuffed animal", "baby clothes", "diapers", "bottles"},

@@ -1,11 +1,10 @@
 """Unit tests for Claude API client."""
 
-from unittest.mock import AsyncMock, MagicMock, patch
+from unittest.mock import patch
 
 import pytest
-from anthropic import RateLimitError, APIError, APITimeoutError
+from anthropic import APITimeoutError
 from anthropic.types import Message, Usage
-from anthropic.types.content_block import ContentBlock
 from anthropic.types.text_block import TextBlock
 
 from test_data_agent.clients.claude import ClaudeClient
@@ -64,6 +63,7 @@ async def test_generate_success(claude_client, mock_message):
 @pytest.mark.asyncio
 async def test_generate_retry_on_rate_limit(claude_client, mock_message):
     """Test retry on rate limit error."""
+
     # Create a mock RateLimitError that can be raised
     class MockRateLimitError(Exception):
         pass
@@ -107,6 +107,7 @@ async def test_generate_retry_on_timeout(claude_client, mock_message):
 @pytest.mark.asyncio
 async def test_generate_exhausts_retries(claude_client):
     """Test that retries are exhausted on persistent rate limits."""
+
     # Create a mock RateLimitError that can be raised
     class MockRateLimitError(Exception):
         pass
@@ -126,6 +127,7 @@ async def test_generate_exhausts_retries(claude_client):
 @pytest.mark.asyncio
 async def test_generate_no_retry_on_api_error(claude_client):
     """Test that API errors are not retried."""
+
     # Create a mock APIError that can be raised
     class MockAPIError(Exception):
         pass

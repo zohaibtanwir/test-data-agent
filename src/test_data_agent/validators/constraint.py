@@ -326,7 +326,10 @@ class ConstraintValidator:
                     item_fields = item_schema.get("fields", {})
                     for item_field_name, item_field_def in item_fields.items():
                         if item_field_name in item:
-                            item_field_def_copy = {**item_field_def, "name": f"{field_name}[{idx}].{item_field_name}"}
+                            item_field_def_copy = {
+                                **item_field_def,
+                                "name": f"{field_name}[{idx}].{item_field_name}",
+                            }
                             item_errors = self.validate_field(
                                 item[item_field_name],
                                 item_field_def_copy,
@@ -356,7 +359,10 @@ class ConstraintValidator:
         nested_fields = field_def.get("fields", {})
         for nested_field_name, nested_field_def in nested_fields.items():
             if nested_field_name in value:
-                nested_field_def_copy = {**nested_field_def, "name": f"{field_name}.{nested_field_name}"}
+                nested_field_def_copy = {
+                    **nested_field_def,
+                    "name": f"{field_name}.{nested_field_name}",
+                }
                 nested_errors = self.validate_field(
                     value[nested_field_name],
                     nested_field_def_copy,

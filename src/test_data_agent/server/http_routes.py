@@ -14,6 +14,7 @@ logger = get_logger(__name__)
 
 class GenerateRequest(BaseModel):
     """HTTP request model for data generation."""
+
     domain: str
     entity: str
     count: int = 10
@@ -28,6 +29,7 @@ class GenerateRequest(BaseModel):
 
 class SchemaInfo(BaseModel):
     """Schema information model."""
+
     name: str
     description: str
     fields: list[dict[str, Any]]
@@ -42,7 +44,7 @@ def add_http_routes(app, settings):
         """Generate test data via HTTP endpoint."""
         try:
             # Connect to gRPC server
-            channel = grpc.insecure_channel(f'localhost:{settings.grpc_port}')
+            channel = grpc.insecure_channel(f"localhost:{settings.grpc_port}")
             stub = test_data_pb2_grpc.TestDataServiceStub(channel)
 
             # Build gRPC request
@@ -59,9 +61,9 @@ def add_http_routes(app, settings):
             if request.scenarios:
                 for scenario in request.scenarios:
                     grpc_scenario = grpc_request.scenarios.add()
-                    grpc_scenario.name = scenario.get('name', '')
-                    grpc_scenario.description = scenario.get('description', '')
-                    grpc_scenario.weight = scenario.get('weight', 1)
+                    grpc_scenario.name = scenario.get("name", "")
+                    grpc_scenario.description = scenario.get("description", "")
+                    grpc_scenario.weight = scenario.get("weight", 1)
 
             if request.hints:
                 grpc_request.hints.extend(request.hints)
@@ -81,11 +83,25 @@ def add_http_routes(app, settings):
                 "data": data,
                 "recordCount": response.record_count,
                 "metadata": {
-                    "generationPath": response.metadata.generation_path if response.metadata else None,
-                    "llmTokensUsed": response.metadata.llm_tokens_used if response.metadata and response.metadata.llm_tokens_used else None,
-                    "generationTimeMs": response.metadata.generation_time_ms if response.metadata and response.metadata.generation_time_ms else 0,
-                    "coherenceScore": response.metadata.coherence_score if response.metadata else None,
-                    "scenarioCounts": dict(response.metadata.scenario_counts) if response.metadata else {},
+                    "generationPath": (
+                        response.metadata.generation_path if response.metadata else None
+                    ),
+                    "llmTokensUsed": (
+                        response.metadata.llm_tokens_used
+                        if response.metadata and response.metadata.llm_tokens_used
+                        else None
+                    ),
+                    "generationTimeMs": (
+                        response.metadata.generation_time_ms
+                        if response.metadata and response.metadata.generation_time_ms
+                        else 0
+                    ),
+                    "coherenceScore": (
+                        response.metadata.coherence_score if response.metadata else None
+                    ),
+                    "scenarioCounts": (
+                        dict(response.metadata.scenario_counts) if response.metadata else {}
+                    ),
                 },
                 "error": response.error if response.error else None,
             }
@@ -102,7 +118,7 @@ def add_http_routes(app, settings):
         """List available schemas."""
         try:
             # Connect to gRPC server
-            channel = grpc.insecure_channel(f'localhost:{settings.grpc_port}')
+            channel = grpc.insecure_channel(f"localhost:{settings.grpc_port}")
             stub = test_data_pb2_grpc.TestDataServiceStub(channel)
 
             # Build gRPC request
@@ -115,20 +131,22 @@ def add_http_routes(app, settings):
 
             schemas = []
             for schema in response.schemas:
-                schemas.append({
-                    "name": schema.name,
-                    "description": schema.description,
-                    "fields": [
-                        {
-                            "name": field.name,
-                            "type": field.type,
-                            "required": field.required,
-                            "description": field.description,
-                        }
-                        for field in schema.fields
-                    ],
-                    "domain": schema.domain if schema.domain else None,
-                })
+                schemas.append(
+                    {
+                        "name": schema.name,
+                        "description": schema.description,
+                        "fields": [
+                            {
+                                "name": field.name,
+                                "type": field.type,
+                                "required": field.required,
+                                "description": field.description,
+                            }
+                            for field in schema.fields
+                        ],
+                        "domain": schema.domain if schema.domain else None,
+                    }
+                )
 
             return {"schemas": schemas}
 

@@ -42,7 +42,11 @@ USER_SCHEMA = {
             "item_schema": {
                 "type": "object",
                 "fields": {
-                    "label": {"type": "string", "required": False, "description": "Address label (home, work, etc.)"},
+                    "label": {
+                        "type": "string",
+                        "required": False,
+                        "description": "Address label (home, work, etc.)",
+                    },
                     "street": {"type": "string", "required": True},
                     "city": {"type": "string", "required": True},
                     "state": {"type": "string", "required": True},

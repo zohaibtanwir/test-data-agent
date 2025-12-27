@@ -72,7 +72,9 @@ class Application:
         grpc_task = asyncio.create_task(self.start_grpc_server())
         health_task = asyncio.create_task(self.start_health_server())
 
-        logger.info("servers_started", grpc_port=self.settings.grpc_port, http_port=self.settings.http_port)
+        logger.info(
+            "servers_started", grpc_port=self.settings.grpc_port, http_port=self.settings.http_port
+        )
 
         # Wait for shutdown signal
         try:

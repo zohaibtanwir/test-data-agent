@@ -13,7 +13,14 @@ ANALYTICS_EVENT_SCHEMA = {
         },
         "event_type": {
             "type": "enum",
-            "values": ["page_view", "product_view", "add_to_cart", "checkout", "purchase", "search"],
+            "values": [
+                "page_view",
+                "product_view",
+                "add_to_cart",
+                "checkout",
+                "purchase",
+                "search",
+            ],
             "required": True,
             "description": "Event type",
         },

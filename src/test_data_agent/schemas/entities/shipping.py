@@ -73,7 +73,15 @@ SHIPPING_SCHEMA = {
         },
         "status": {
             "type": "enum",
-            "values": ["pending", "picked_up", "in_transit", "out_for_delivery", "delivered", "returned", "lost"],
+            "values": [
+                "pending",
+                "picked_up",
+                "in_transit",
+                "out_for_delivery",
+                "delivered",
+                "returned",
+                "lost",
+            ],
             "default": "pending",
             "required": True,
             "description": "Shipping status",

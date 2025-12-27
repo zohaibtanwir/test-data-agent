@@ -4,8 +4,6 @@ import json
 import logging
 from io import StringIO
 
-import pytest
-import structlog
 
 from test_data_agent.utils.logging import (
     bind_request_id,

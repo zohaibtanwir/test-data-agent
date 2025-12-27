@@ -2,7 +2,6 @@
 
 import os
 import pytest
-from typing import AsyncGenerator
 
 from test_data_agent.config import load_settings, Settings
 
